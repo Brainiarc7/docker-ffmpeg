@@ -58,7 +58,7 @@ The architectures supported by this image are:
 Unlike most of our container library this image is meant to be run ephemerally from the command line parsing user input for a custom FFmpeg command. You will need to understand some Docker basics to use this image and be familiar with how to construct an FFmpeg command. In the commands below we will be bind mounting our current working directory from the CLI to /config, the assumption is that input.mkv is in your current working directory.
 
 If an input file is detected we will run FFmpeg as that user/group so the output file will match its permissions.
-The image supports Hardware acceleration on x86 pay close attention to the variables for the examples below.
+The image supports Hardware acceleration on x86_64 (Nvidia on x86_64 and aarch64). Pay close attention to the variables for the examples below.
 
 ### Included Intel Drivers (latest versions compiled):
 - iHD Driver: Supports gen8+ (default for Intel)
@@ -151,6 +151,7 @@ Once registered you can define the dockerfile to use with `-f Dockerfile.aarch64
 
 ## Versions
 
+* **13.11.23:** - Add Nvidia support to aarch64 image.
 * **13.11.23:** - Bump FFmpeg to 6.1.
 * **02.11.23:** - Remove `--enable-small` from ffmpeg build options to add back some features.
 * **05.10.23:** - Add support for SVT-AV1. Update various libraries.

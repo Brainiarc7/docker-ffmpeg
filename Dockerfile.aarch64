@@ -118,6 +118,17 @@ RUN \
   make && \
   make install
 RUN \
+  echo "**** grabbing ffnvcodec ****" && \
+  mkdir -p /tmp/ffnvcodec && \
+  git clone \
+    --branch ${NVCODEC} \
+    --depth 1 https://git.videolan.org/git/ffmpeg/nv-codec-headers.git \
+    /tmp/ffnvcodec
+RUN \
+  echo "**** compiling ffnvcodec ****" && \
+  cd /tmp/ffnvcodec && \
+  make install
+RUN \
   echo "**** grabbing freetype ****" && \
   mkdir -p /tmp/freetype && \
   curl -Lf \
@@ -422,6 +433,7 @@ RUN \
     --disable-debug \
     --disable-doc \
     --disable-ffplay \
+    --enable-cuvid \
     --enable-ffprobe \
     --enable-gpl \
     --enable-libaom \
@@ -440,12 +452,14 @@ RUN \
     --enable-libvidstab \
     --enable-libvorbis \
     --enable-libvpx \
+    --enable-libwebp \
     --enable-libxml2 \
     --enable-libx264 \
     --enable-libx265 \
     --enable-libxvid \
-    --enable-libwebp \
     --enable-nonfree \
+    --enable-nvdec \
+    --enable-nvenc \
     --enable-openssl \
     --enable-stripping \
     --enable-version3 && \
