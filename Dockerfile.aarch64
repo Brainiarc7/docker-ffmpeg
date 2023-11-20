@@ -470,7 +470,8 @@ RUN \
   ldconfig && \
   mkdir -p \
     /buildout/usr/local/bin \
-    /buildout/usr/local/lib && \
+    /buildout/usr/local/lib \
+    /buildout/etc/OpenCL/vendors && \
   cp \
     /tmp/ffmpeg/ffmpeg \
     /buildout/usr/local/bin && \
@@ -479,7 +480,10 @@ RUN \
     /buildout/usr/local/bin && \
   cp -a \
     /usr/local/lib/lib*so* \
-    /buildout/usr/local/lib/
+    /buildout/usr/local/lib/ && \
+  echo \
+    'libnvidia-opencl.so.1' > \
+    /buildout/etc/OpenCL/vendors/nvidia.icd
 
 # runtime stage
 FROM ghcr.io/linuxserver/baseimage-ubuntu:arm64v8-jammy
@@ -494,6 +498,10 @@ LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DA
 LABEL maintainer="thelamer"
 
 ARG DEBIAN_FRONTEND="noninteractive"
+
+ENV \
+  NVIDIA_DRIVER_CAPABILITIES="compute,video,utility" \
+  NVIDIA_VISIBLE_DEVICES="all"
 
 RUN \
   echo "**** install runtime ****" && \
